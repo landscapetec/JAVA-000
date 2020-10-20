@@ -1,0 +1,14 @@
+
+Week_01/.DS_Store
+.DS_Store
+Week_01/.idea
+*/target/*
+*/production/*
+Week_02/Week_02.iml
+Week_01/out/production/Week_01/StudyWakeReference.class
+Week_01/out/production/Week_01/StudyStartProperty.class
+Week_01/out/production/Week_01/StudySoftReference.class
+Week_01/out/production/Week_01/StudyByteCode.class
+Week_01/out/production/Week_01/MyClassLoader.class
+Week_01/out/production/Week_01/META-INF/Week_01.kotlin_module
+Week_01/out/production/Week_01/JvmClassLoaderPrintPath.class
