@@ -1,6 +1,6 @@
-package ioexample.nettydemo;
+package ioexample.nettydemo.server;
 
-public class NettyApplication {
+public class NettyServerApplication {
     public static void main(String[] args) throws InterruptedException {
         new NettyServer().bind(9005);
     }
