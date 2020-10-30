@@ -384,7 +384,6 @@ Running 30s test @ http://localhost:9005
   49610 requests in 30.10s, 3.22MB read
 Requests/sec:   1647.95
 Transfer/sec:    109.43KB
-
 ```
 ##### <font color=red>第 2 题</font>：写一段代码，使用 HttpClient 或 OkHttp 访问 http://localhost:8801，代码提交到 Github。
 

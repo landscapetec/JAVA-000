@@ -6,7 +6,11 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.util.CharsetUtil;
 
+import java.util.Date;
+
 public class NettyServerHandler extends SimpleChannelInboundHandler<ByteBuf> {
+
+    private int counter;
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
@@ -15,23 +19,52 @@ public class NettyServerHandler extends SimpleChannelInboundHandler<ByteBuf> {
     }
 
     @Override
+    public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+        // 读客户端写入流
+        String body = (String) msg;
+        System.out.println("The time Server receive order:" + body
+                + "  ; the counter is :" + ++counter);
+
+        // 拼接自负写回客户端
+        String currentTime = "QUERY TIME ORDER".equalsIgnoreCase(body)
+                ? new Date(System.currentTimeMillis()).toString()
+                : "BAD ORDERT";
+        currentTime = currentTime + System.getProperty("line separator");
+        ByteBuf resp = Unpooled.copiedBuffer(currentTime.getBytes());
+        ctx.writeAndFlush(resp);
+    }
+
+    @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf) throws Exception {
-        System.out.println("Client received: " + byteBuf.toString(CharsetUtil.UTF_8));
         Thread.sleep(20);
-        String pageInfo = "hello,lehman";
+//        System.out.println("Client received: " + byteBuf.toString(CharsetUtil.UTF_8));
+//        String pageInfo = "hello,lehman";
+//
+//        StringBuilder stringBuilder = new StringBuilder();
+//        stringBuilder.append("HTTP/1.1 200\n");
+//        stringBuilder.append("Content-Type: text/html\n");
+//        stringBuilder.append("Content-Length:" + pageInfo.getBytes("UTF-8").length + "\n");
+//        stringBuilder.append("\n");
+//        stringBuilder.append(pageInfo.getBytes());
+//        System.out.println("=========================");
+//        System.out.println(stringBuilder.toString());
+//        System.out.println("=========================");
+//
+//        ByteBuf resp = Unpooled.copiedBuffer(stringBuilder.toString().getBytes());
 
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("HTTP/1.1 200\n");
-        stringBuilder.append("Content-Type: text/html\n");
-        stringBuilder.append("Content-Length:" + pageInfo.length() + "\n");
-        stringBuilder.append("\n");
-        stringBuilder.append(pageInfo);
-        System.out.println("=========================");
-        System.out.println(stringBuilder.toString());
-        System.out.println("=========================");
-
-        ByteBuf resp = Unpooled.copiedBuffer(stringBuilder.toString().getBytes());
-        channelHandlerContext.write(resp);
+//        byte[] req = new byte[byteBuf.readableBytes()];
+//        byteBuf.readBytes(req);
+//        String body = new String(req, "UTF-8").substring(0, req.length
+//                - System.getProperty("line.separator").length());
+//
+//        System.out.println("The time Server receive order:" + body
+//                + "  ; the counter is :" + ++counter);
+//        String currentTime = "QUERY TIME ORDER".equalsIgnoreCase(body) ? new Date(System.currentTimeMillis()).toString()
+//                : "BAD ORDERT";
+//        currentTime = currentTime + System.getProperty("line separator");
+//
+//        ByteBuf resp = Unpooled.copiedBuffer(currentTime.getBytes());
+//        channelHandlerContext.write(resp);
     }
 
     @Override

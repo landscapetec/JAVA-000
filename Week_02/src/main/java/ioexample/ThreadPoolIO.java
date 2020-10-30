@@ -36,6 +36,5 @@ public class ThreadPoolIO {
         } catch (IOException | InterruptedException exception) {
             exception.printStackTrace();
         }
-
     }
 }

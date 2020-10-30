@@ -37,6 +37,5 @@ public class SimpleIO {
         } catch (IOException | InterruptedException exception) {
             exception.printStackTrace();
         }
-
     }
 }
