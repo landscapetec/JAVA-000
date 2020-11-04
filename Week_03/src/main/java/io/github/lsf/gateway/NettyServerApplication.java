@@ -8,7 +8,8 @@ public class NettyServerApplication {
     public static Logger logger = LoggerFactory.getLogger(NettyServerApplication.class);
 
     public static void main(String[] args) throws InterruptedException {
-        HttpInboundServer server=new HttpInboundServer(9002,"http://localhost");
+        logger.info("程序启动");
+        HttpInboundServer server = new HttpInboundServer(9002, "http://localhost:8088");
         server.run();
     }
 }

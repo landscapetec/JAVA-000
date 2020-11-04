@@ -17,11 +17,7 @@ public class HttpInboundInitialzer extends ChannelInitializer<SocketChannel> {
     @Override
     protected void initChannel(SocketChannel ch) throws Exception {
         ChannelPipeline p = ch.pipeline();
-//		if (sslCtx != null) {
-//			p.addLast(sslCtx.newHandler(ch.alloc()));
-//		}
         p.addLast(new HttpServerCodec());
-        //p.addLast(new HttpServerExpectContinueHandler());
         p.addLast(new HttpObjectAggregator(1024 * 1024));
         p.addLast(new HttpInboundHandler(this.proxyServer));
     }
