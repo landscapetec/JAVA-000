@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <Appenders>
+        <Console name="CONSOLE" target="SYSTEM_OUT">
+            <PatternLayout pattern="[%p] [%d{yyyy-MM-dd HH:mm:ss,SSS}] [%t] [%X{X-SERIAL-NO}] [%c{1}:%L] - %m%n"/>
+        </Console>
+
+        <!-- 这个会打印出所有的信息，每次大小超过size，则这size大小的日志会自动存入按年份-月份建立的文件夹下面并进行压缩，作为存档-->
+        <RollingFile name="RollingFile" fileName="logs/base.log"
+                     filePattern="log/$${date:yyyy-MM}/base-%d{MM-dd-yyyy}-%i.log.gz">
+                    <PatternLayout pattern="[%p] [%d{yyyy-MM-dd HH:mm:ss,SSS}] [%X{X-SERIAL-NO}] [%c{1}:%L] - %m%n"/>
+                    <SizeBasedTriggeringPolicy size="5000MB"/>
+                    <!-- DefaultRolloverStrategy属性如不设置，则默认为最多同一文件夹下7个文件，这里设置了2000 -->
+                    <DefaultRolloverStrategy max="20"/>
+·       </RollingFile>
+    </Appenders>
+
+    <Loggers>
+        <root level="info">
+            <AppenderRef ref="CONSOLE" />
+            <AppenderRef ref="RollingFile" />
+        </root>
+    </Loggers>
+</configuration>

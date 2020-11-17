@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <bean id="school02" class="com.lsf.hw_0902.bean.entity.School">
+        <property name="name" value="第二所学校，等级BBBBB"/>
+    </bean>
+
+    <bean id="class01" class="com.lsf.hw_0902.bean.entity.Klass">
+        <property name="school" ref="school02"/>
+        <property name="name" value="重点班级"/>
+    </bean>
+</beans>

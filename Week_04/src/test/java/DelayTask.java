@@ -1,3 +1,4 @@
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.Delayed;
 import java.util.concurrent.TimeUnit;
 
@@ -14,6 +15,8 @@ public class DelayTask implements Delayed {
     public DelayTask(long delayTime, String data) {
         this.delayTime = delayTime;
         this.data = data;
+        CopyOnWriteArrayList<String> list=new CopyOnWriteArrayList<>();
+        list.add("asdf");
 
         expire = System.currentTimeMillis() + delayTime;
     }
