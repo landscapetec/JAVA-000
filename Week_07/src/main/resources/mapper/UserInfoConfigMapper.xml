@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--namespace是命名空间，是mapper接口的全路径-->
+<mapper namespace="com.lsf.studymybatis.mapper.UserInfoConfigMapper">
+    <select id="getById" parameterType="long" resultType="com.lsf.studymybatis.entity.UserInfo">
+        select id,
+            member_info_id memberInfoId,
+            validate_type validateType,
+            validate_info validateInfo,
+            validate_pwd validatePWD,
+            deleted,
+            activity,
+            bind_time bindTime
+        from user_info where id=#{id}
+    </select>
+
+    <resultMap id="userInfo" type="com.lsf.studymybatis.entity.UserInfo">
+        <id column="id" property="id"/>
+        <result column="member_info_id" property="memberInfoId"/>
+        <result column="validate_type" property="validateType"
+                typeHandler="com.lsf.studymybatis.config.typehandler.EnumTypeHandler"
+        />
+        <result column="validate_info" property="validateInfo"/>
+        <result column="validate_pwd" property="validatePWD"/>
+        <result column="deleted" property="deleted"/>
+        <result column="activity" property="activity"/>
+        <result column="bind_time" property="bindTime"
+                typeHandler="com.lsf.studymybatis.config.typehandler.DateTimeAndLongTypeHandler"/>
+    </resultMap>
+    <parameterMap id="queryUserInfoParam" type="com.lsf.studymybatis.entity.UserInfo">
+        <parameter property="memberInfoId" jdbcType="BIGINT"/>
+    </parameterMap>
+    <select id="findAll" resultMap="userInfo">
+        SELECT id,
+             member_info_id,
+             validate_type,
+             validate_info,
+             validate_pwd,
+             deleted,
+             activity,
+             bind_time
+        FROM user_info
+    </select>
+
+    <insert id="insert" parameterType="com.lsf.studymybatis.entity.UserInfo"
+            useGeneratedKeys="true" keyProperty="id">
+        insert into user_info(member_info_id,
+           validate_type,
+           validate_info,
+           validate_pwd,
+           deleted,
+           activity,
+           bind_time)
+        values (#{memberInfoId},
+            #{validateType},
+            #{validateInfo},
+            #{validatePWD},
+            #{deleted},
+            #{activity},
+            #{bindTime,typeHandler=com.lsf.studymybatis.config.typehandler.DateTimeAndLongTypeHandler})
+    </insert>
+
+    <select id="query" parameterMap="queryUserInfoParam" resultMap="userInfo">
+        SELECT id,
+        member_info_id,
+        validate_type,
+        validate_info,
+        validate_pwd,
+        deleted,
+        activity,
+        bind_time
+        FROM user_info
+        <where>
+            <if test="memberInfoId!=0">
+               and member_info_id = #{memberInfoId}
+            </if>
+        </where>
+    </select>
+</mapper>
+
+

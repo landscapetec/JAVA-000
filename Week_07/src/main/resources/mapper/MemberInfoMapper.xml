@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--namespace是命名空间，是mapper接口的全路径-->
+<mapper namespace="com.lsf.studymybatis.mapper.MemberInfoMapper">
+    <parameterMap id="memberInfo" type="com.lsf.studymybatis.entity.MemberInfo">
+        <parameter property="userCode" jdbcType="VARCHAR" javaType="String"/>
+        <parameter property="userNickname" jdbcType="VARCHAR" javaType="String"/>
+        <parameter property="phone" jdbcType="VARCHAR" javaType="String"/>
+        <parameter property="deleted" jdbcType="TINYINT" javaType="boolean"/>
+        <parameter property="activity" jdbcType="TINYINT" javaType="boolean"/>
+        <parameter property="addTime" jdbcType="BIGINT" javaType="java.util.Date"
+                   typeHandler="com.lsf.studymybatis.config.typehandler.DateTimeAndLongTypeHandler"/>
+        <parameter property="lastLoginTime" jdbcType="BIGINT" javaType="java.util.Date"
+                   typeHandler="com.lsf.studymybatis.config.typehandler.DateTimeAndLongTypeHandler"/>
+    </parameterMap>
+    <insert id="insert" parameterMap="memberInfo" useGeneratedKeys="true" keyProperty="id">
+        insert into t_member_info(
+            user_code,
+            user_nick_name,
+            phone,
+            deleted,
+            activity,
+            add_time,
+            last_login_time)
+        values(
+            #{userCode},
+            #{userNickname},
+            #{phone},
+            #{deleted},
+            #{activity},
+            #{addTime,typeHandler=com.lsf.studymybatis.config.typehandler.DateTimeAndLongTypeHandler},
+            #{lastLoginTime,typeHandler=com.lsf.studymybatis.config.typehandler.DateTimeAndLongTypeHandler}
+        )
+    </insert>
+    <select id="findAll" resultType="com.lsf.studymybatis.entity.MemberInfo" parameterMap="memberInfo">
+        select id,
+            user_code userCode,
+            user_nick_name userNickname,
+            phone phone,
+            deleted deleted,
+            activity activity,
+            add_time addTime,
+            last_login_time lastLoginTime
+        from t_member_info
+        <where>
+            <if test="#{userCode}!=null">
+                user_code=#{userCode}
+            </if>
+        </where>
+        limit 10
+    </select>
+</mapper>
