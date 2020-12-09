@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--namespace是命名空间，是mapper接口的全路径-->
+<mapper namespace="com.lsf.study.shardingsphere.mapper.MemberInfoMapper">
+    <parameterMap id="memberInfo" type="com.lsf.study.shardingsphere.entity.MemberInfo">
+        <parameter property="userCode" jdbcType="VARCHAR" javaType="String"/>
+        <parameter property="userNickname" jdbcType="VARCHAR" javaType="String"/>
+        <parameter property="phone" jdbcType="VARCHAR" javaType="String"/>
+        <parameter property="deleted" jdbcType="TINYINT" javaType="boolean"/>
+        <parameter property="activity" jdbcType="TINYINT" javaType="boolean"/>
+        <parameter property="addTime" jdbcType="BIGINT" javaType="java.util.Date"
+                   typeHandler="com.lsf.study.shardingsphere.config.typehandler.DateTimeAndLongTypeHandler"/>
+        <parameter property="lastLoginTime" jdbcType="BIGINT" javaType="java.util.Date"
+                   typeHandler="com.lsf.study.shardingsphere.config.typehandler.DateTimeAndLongTypeHandler"/>
+    </parameterMap>
+
+    <insert id="insert" parameterMap="memberInfo" useGeneratedKeys="true" keyProperty="id">
+        insert into t_member_info(
+            id,
+            user_code,
+            user_nick_name,
+            phone,
+            deleted,
+            activity,
+            add_time,
+            last_login_time)
+        values(
+            #{id},
+            #{userCode},
+            #{userNickname},
+            #{phone},
+            #{deleted},
+            #{activity},
+            #{addTime,typeHandler=com.lsf.study.shardingsphere.config.typehandler.DateTimeAndLongTypeHandler},
+            #{lastLoginTime,typeHandler=com.lsf.study.shardingsphere.config.typehandler.DateTimeAndLongTypeHandler}
+        )
+    </insert>
+
+    <update id="update" parameterMap="memberInfo">
+        update t_member_info
+        set user_code=#{userCode},
+            user_nick_name=#{userNickname},
+            phone= #{phone},
+            deleted=#{deleted},
+            activity= #{activity},
+            add_time= #{addTime,typeHandler=com.lsf.study.shardingsphere.config.typehandler.DateTimeAndLongTypeHandler},
+            last_login_time=#{lastLoginTime,typeHandler=com.lsf.study.shardingsphere.config.typehandler.DateTimeAndLongTypeHandler}
+        where id=#{id}
+    </update>
+
+    <delete id="delete" parameterMap="memberInfo">
+        delete from t_member_info where id=#{id}
+    </delete>
+
+    <select id="findAll" resultType="com.lsf.study.shardingsphere.entity.MemberInfo" parameterMap="memberInfo">
+        select id,
+        user_code userCode,
+        user_nick_name userNickname,
+        phone phone,
+        deleted deleted,
+        activity activity,
+        add_time addTime,
+        last_login_time lastLoginTime
+        from t_member_info
+        <where>
+            <if test="#{userCode}!=null">
+                user_code=#{userCode}
+            </if>
+        </where>
+        limit 10
+    </select>
+
+</mapper>
